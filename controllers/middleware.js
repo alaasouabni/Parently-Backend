@@ -5,9 +5,9 @@ const SECRET="secret";
 const isLoggedIn = async (req, res, next) => {
   try {
     // check if auth header exists
-    if (req.headers.authorization) {
+    if (req.cookies["access-token"]) {
       // parse token from header
-      const token = req.headers.authorization.split(" ")[1]; //split the header and get the token
+      const token = (req.cookies["access-token"]).split(" ")[1]; //split the header and get the token
       if (token) {
         const payload = await jwt.verify(token, SECRET);
         if (payload) {

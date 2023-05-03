@@ -22,14 +22,14 @@ router.post("/signup", async (req, res) => {
   const { email } = req.body
   // Check we have an email
   if (!email) {
-     return res.status(422).send({ message: "Missing email." });
+     return res.status(422).send({ error: "Missing email." });
   }
   try{
      // Check if the email is in use
      const existingUser = await User.findOne({ email }).exec();
      if (existingUser) {
         return res.status(409).send({ 
-              message: "Email is already in use."
+              error: "Email is already in use."
         });
       }
     
@@ -52,7 +52,7 @@ router.post("/validate-email", async(req,res) => {
   const { email } = req.body;
     // Check we have an email
   if (!email) {
-    return res.status(422).send({ message: "Missing email." });
+    return res.status(422).send({ error: "Missing email." });
   }
        // check if the user exists
   try{
@@ -91,16 +91,17 @@ router.post("/login", async (req, res) => {
     // Check we have an email
     if (!email) {
         return res.status(422).send({ 
-             message: "Missing email." 
+             error: "Missing email." 
         });
     }
     // check if the user exists
     const user = await User.findOne({ email: req.body.email });
+    console.log(user);
     if (user) {
               //Ensure the account has been verified
               if(!user.verified){
-                return res.status(403).send({ 
-                      message: "Verify your Account." 
+                return res.status(400).json({ 
+                      error: "Verify your Account." 
                 });
            }
       //check if password matches
@@ -108,7 +109,7 @@ router.post("/login", async (req, res) => {
       if (result) {
         // sign token and send it in response
         const token = await jwt.sign({ email: user.email }, SECRET);
-        res.json({ token });
+        res.cookie("access-token", "bearer "+token, { sameSite: 'none', secure: true }).status(200).json(token);
       } else {
         res.status(400).json({ error: "password doesn't match" });
       }
@@ -119,6 +120,13 @@ router.post("/login", async (req, res) => {
     res.status(400).json({ error });
   }
 });
+
+//function to test if we parse the cookies from frontend
+// router.get('/cookie', (req, res) => {
+//   const token = req.cookies["access-token"];
+//   console.log(token);
+//   // Do something with the cookie value...
+// });
 
 router.get("/verify/:id", async (req,res) => {
   const token  = req.params.id;

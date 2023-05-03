@@ -17,6 +17,8 @@ const UserSchema = new mongoose.Schema({
     expireToken: {
         type: Date,
     },
+    my_events:[{type:mongoose.Schema.Types.ObjectId, ref:"Event"}],
+    created_events:[{type:mongoose.Schema.Types.ObjectId, ref:"Event"}],
 });
 
 UserSchema.methods.generateVerificationToken = function () {

@@ -1,5 +1,7 @@
 const { Router } = require("express"); // import Router from express
 const Todo = require("../models/Todo"); // import Todo model
+const Event= require("../models/event");
+const User=require("../models/User");
 const { isLoggedIn } = require("./middleware"); // import isLoggedIn custom middleware
 
 const router = Router();
@@ -32,15 +34,30 @@ router.get("/:id", isLoggedIn, async (req, res) => {
 });
 
 // create Route with isLoggedIn middleware
-router.post("/", isLoggedIn, async (req, res) => {
-  const { email } = req.user; // get username from req.user property created by isLoggedIn middleware
-  req.body.email = email; // add username property to req.body
-  //create new todo and send it in response
-  res.json(
-    await Todo.create(req.body).catch((error) =>
-      res.status(400).json({ error })
-    )
-  );
+router.post("/create-event", isLoggedIn, async (req, res) => {
+  const body = req.body;
+  console.log("hi");
+  console.log(req.user);
+  const user = await User.findOne({ email: req.user.email })
+  try {
+    const newEvent = await Event.create({
+      name: body.name,
+      description: body.description,
+      short_description: body.short_description,
+      creator: user._id,
+    });
+
+    await User.findByIdAndUpdate(user._id, {
+      $push: { created_events: newEvent._id },
+    });
+
+    console.log("Event created  ", newEvent);
+
+    res.status(200).json(newEvent);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
 // update Route with isLoggedIn middleware

@@ -5,6 +5,7 @@ const routes = require('./routes/routes');
 const UserRouter = require("./controllers/User") //import User Routes
 const TodoRouter = require("./controllers/Todo") // import Todo Routes
 const cors = require("cors") // import cors
+const cookieParser = require('cookie-parser');
 
 
 //Connect mongoDB database
@@ -23,8 +24,20 @@ database.once('connected', () =>{
 
 //Setting up the server
 const app = express();
-app.use(cors()) // add cors headers
+
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.all(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
 app.use(express.json());
+app.use(cookieParser());
+
 
 app.use('/api', routes);
 app.use("/user", UserRouter) // send all "/user" requests to UserRouter for routing
