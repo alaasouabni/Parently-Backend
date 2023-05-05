@@ -110,7 +110,7 @@ router.post("/login", async (req, res) => {
         // sign token and send it in response
         const payload={ email: user.email, _id: user._id }
         const token = await jwt.sign(payload, SECRET);
-        res.cookie("access-token", "bearer "+token, { sameSite: 'strict', secure: true, httpOnly: true }).status(200).json(payload);
+        res.cookie("access-token", "bearer "+token, { sameSite: 'none', secure: true }).status(200).json(payload);
       } else {
         res.status(400).json({ error: "password doesn't match" });
       }
@@ -166,6 +166,30 @@ router.get("/verify/:id", async (req,res) => {
      }
 
 });
+
+router.get("/current-user", async(req,res) =>{
+  try{
+    if (req.cookies["access-token"]){
+      const token = (req.cookies["access-token"]).split(" ")[1]; //split the header and get the token
+      if (token) {
+        const payload = await jwt.verify(token, SECRET);
+        if (payload) {
+          // store user data in request object
+          res.status(200).json(payload);
+          //console.log(payload)
+        } else {
+          res.status(400).json({ error: "token verification failed" });
+        }
+      } else {
+        res.status(400).json({ error: "malformed auth header" });
+      }
+    } else {
+      res.status(400).json({ error: "No authorization header" });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+    });
 
 router.post("/reset-password", async(req,res) =>{
   const { email } = req.body;
