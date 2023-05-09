@@ -284,4 +284,10 @@ if (!user) {
    }
 });
 
+router.get('/logout', function(req, res) {
+  // Set the expiration time to a date in the past
+  res.cookie('access-token', '', { expires: new Date(0) });
+  res.send('Logged out successfully');
+});
+
 module.exports = router
