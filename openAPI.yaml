@@ -3,7 +3,7 @@ info:
   title: Event & Ticket Management API
   version: 1.0.0-oas3-oas3.1
 servers:
-  - url: http://localhost:5000
+  - url: https://eventhub-backend.herokuapp.com
 paths:
   /user/signup:
     post:
