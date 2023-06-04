@@ -1,1 +1,1 @@
-# simple_backend
+# EventHub Backend
