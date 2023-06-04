@@ -7,6 +7,7 @@ const EventsRouter = require("./controllers/Events"); // import Events Routes
 const EventActivityRouter = require("./controllers/EventActivity"); // import EventActivity Routes
 const cors = require("cors") // import cors
 const cookieParser = require('cookie-parser');
+const port = process.env.PORT || 5000;
 
 
 //Connect mongoDB database
@@ -45,6 +46,6 @@ app.use("/todos", TodoRouter) // send all "/todos" request to TodoROuter
 app.use("/events", EventsRouter)
 app.use("/eventactivity", EventActivityRouter)
 
-app.listen(5000, () => {
+app.listen(port, () => {
     console.log(`Server Started at ${5000}`)
 })
