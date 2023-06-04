@@ -1,9 +1,10 @@
 const { Router } = require("express"); // import Router from express
-const Event= require("../models/event");
+//const Event= require("../models/event");
 const User=require("../models/User");
 const EventActivity = require('../models/EventActivity');
 const { isLoggedIn } = require("./middleware"); // import isLoggedIn custom middleware
 const mongoose = require("mongoose");
+const Event = require("../models/Event");
 const router = Router();
 
 

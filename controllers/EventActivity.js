@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const EventActivity = require('../models/EventActivity');
 const User = require('../models/User');
-const Event= require('../models/event');
+const Event= require('../models/Event');
 const { isLoggedIn } = require('./middleware');
 
 // POST /register
