@@ -6,6 +6,16 @@ const eventSchema = new mongoose.Schema({
     short_description:{type: String},
     description: {type: String},
     creator: {type:mongoose.Schema.Types.ObjectId, required:true},
+    bannerURL:{type: String},
+    location: {type:mongoose.Schema.Types.String},
+    start_date: {type: Date},
+    end_date:{type: Date},
+    category: {type: String},
+    price: {type: mongoose.Schema.Types.Decimal128},
+    program: {type: mongoose.Schema.Types.Mixed},
+    attendees:[{type:mongoose.Schema.Types.ObjectId, ref:"User"}],
+    checked_in_attendees:[{type:mongoose.Schema.Types.ObjectId, ref:"User"}],
+    created_at: { type: Date, default: Date.now },
 })
 
 // User model
