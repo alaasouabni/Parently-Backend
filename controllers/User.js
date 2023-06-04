@@ -10,8 +10,6 @@ const crypto = require("crypto");
 const router = Router(); // create router to create route bundle
 
 //DESTRUCTURE ENV VARIABLES WITH DEFAULTS
-//const { SECRET = "secret" } = process.env;
-const SECRET="secret";
 
 
 
@@ -108,8 +106,8 @@ router.post("/login", async (req, res) => {
       const result = await bcrypt.compare(req.body.password, user.password);
       if (result) {
         // sign token and send it in response
-        const payload={ email: user.email, _id: user._id }
-        const token = await jwt.sign(payload, SECRET);
+        const payload={ email: user.email, _id: user._id, name: user.name, surname: user.surname };
+        const token = await jwt.sign(payload, process.env.USER_VERIFICATION_TOKEN_SECRET);
         res.cookie("access-token", "bearer "+token, { sameSite: 'none', secure: true }).status(200).json(payload);
       } else {
         res.status(400).json({ error: "password doesn't match" });
@@ -172,7 +170,7 @@ router.get("/current-user", async(req,res) =>{
     if (req.cookies["access-token"]){
       const token = (req.cookies["access-token"]).split(" ")[1]; //split the header and get the token
       if (token) {
-        const payload = await jwt.verify(token, SECRET);
+        const payload = await jwt.verify(token, process.env.USER_VERIFICATION_TOKEN_SECRET);
         if (payload) {
           // store user data in request object
           res.status(200).json(payload);
@@ -263,7 +261,7 @@ if (!user) {
         errors: [
             {
                 message:
-                    "Session has been expired , please resend another Forget your password email",
+                    "Session has expired , please resend another Forget your password email",
             },
         ],
     });
@@ -289,5 +287,6 @@ router.get('/logout', function(req, res) {
   res.cookie('access-token', '', { expires: new Date(0) });
   res.send('Logged out successfully');
 });
+
 
 module.exports = router

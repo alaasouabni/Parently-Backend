@@ -1,9 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const routes = require('./routes/routes');
 const UserRouter = require("./controllers/User") //import User Routes
 const TodoRouter = require("./controllers/Todo") // import Todo Routes
+const EventsRouter = require("./controllers/Events"); // import Events Routes
+const EventActivityRouter = require("./controllers/EventActivity"); // import EventActivity Routes
 const cors = require("cors") // import cors
 const cookieParser = require('cookie-parser');
 
@@ -39,10 +40,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 
-app.use('/api', routes);
 app.use("/user", UserRouter) // send all "/user" requests to UserRouter for routing
 app.use("/todos", TodoRouter) // send all "/todos" request to TodoROuter
-
+app.use("/events", EventsRouter)
+app.use("/eventactivity", EventActivityRouter)
 
 app.listen(5000, () => {
     console.log(`Server Started at ${5000}`)

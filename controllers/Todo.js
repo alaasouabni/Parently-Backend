@@ -144,4 +144,4 @@ router.post('/checkin', isLoggedIn, async(req,res)=>{
 
 
 
-module.exports = router;
+module.exports = router

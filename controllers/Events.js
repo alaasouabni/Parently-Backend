@@ -58,7 +58,7 @@ router.post('/:eventId/create-activity', isLoggedIn, async (req, res) => {
   }
 });
 
-// Assuming you have an Express router defined and imported as router
+// Assuming you have an Express router defined and imported as `router`
 
 
 

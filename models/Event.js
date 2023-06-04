@@ -15,6 +15,11 @@ const eventSchema = new mongoose.Schema({
     program: {type: mongoose.Schema.Types.Mixed},
     attendees:[{type:mongoose.Schema.Types.ObjectId, ref:"User"}],
     checked_in_attendees:[{type:mongoose.Schema.Types.ObjectId, ref:"User"}],
+    activities: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'EventActivity',
+      }],
+  
     created_at: { type: Date, default: Date.now },
 })
 

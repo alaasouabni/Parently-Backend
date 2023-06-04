@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 
 // User Schema
 const UserSchema = new mongoose.Schema({
+    name: {type: String, required: true},
+    surname: {type: String, required: true},
     email: {type: String, unique: true, required: true},
     password: {type: String, required: true},
     verified: {
@@ -17,8 +19,24 @@ const UserSchema = new mongoose.Schema({
     expireToken: {
         type: Date,
     },
+
     my_events:[{type:mongoose.Schema.Types.ObjectId, ref:"Event"}],
     created_events:[{type:mongoose.Schema.Types.ObjectId, ref:"Event"}],
+    attendedActivities: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'EventActivity',
+        },
+      ],
+    
+      checkedInActivities: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'EventActivity',
+          unique: true,
+        },
+      ],
+    created_at:{ type: Date, default: Date.now }
 });
 
 UserSchema.methods.generateVerificationToken = function () {
