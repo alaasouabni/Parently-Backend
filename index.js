@@ -27,9 +27,9 @@ database.once('connected', () =>{
 //Setting up the server
 const app = express();
 
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors({credentials: true, origin: 'https://eventhub-app.herokuapp.com'}));
 app.all(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Origin', 'https://eventhub-app.herokuapp.com');
   res.header('Access-Control-Allow-Credentials', true);
   res.header(
       'Access-Control-Allow-Headers',
@@ -47,5 +47,5 @@ app.use("/events", EventsRouter)
 app.use("/eventactivity", EventActivityRouter)
 
 app.listen(port, () => {
-    console.log(`Server Started at ${5000}`)
+    console.log(`Server Started at ${port}`)
 })
