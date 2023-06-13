@@ -37,6 +37,7 @@ app.all(function(req, res, next) {
       'Access-Control-Allow-Headers',
       'Origin, X-Requested-With, Content-Type, Accept'
   );
+  res.header('Access-Control-Expose-Headers', 'Set-Cookie');
   next();
 });
 app.use(express.json());
