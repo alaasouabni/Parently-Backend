@@ -29,9 +29,9 @@ const app = express();
 
 app.set('trust proxy', true);
 app.set('proxy', true);
-app.use(cors({credentials: true, origin: 'https://eventhub-app.herokuapp.com'}));
+app.use(cors({credentials: true, origin: 'http://www.evenhub.online'}));
 app.all(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'https://eventhub-app.herokuapp.com');
+  res.header('Access-Control-Allow-Origin', 'http://www.evenhub.online');
   res.header('Access-Control-Allow-Credentials', true);
   res.header(
       'Access-Control-Allow-Headers',
