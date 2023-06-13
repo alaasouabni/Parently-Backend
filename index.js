@@ -27,6 +27,8 @@ database.once('connected', () =>{
 //Setting up the server
 const app = express();
 
+app.set('trust proxy', true);
+app.set('proxy', true);
 app.use(cors({credentials: true, origin: 'https://eventhub-app.herokuapp.com'}));
 app.all(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', 'https://eventhub-app.herokuapp.com');
