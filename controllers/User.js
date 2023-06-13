@@ -108,8 +108,10 @@ router.post("/login", async (req, res) => {
         // sign token and send it in response
         const payload={ email: user.email, _id: user._id, name: user.name, surname: user.surname };
         const token = await jwt.sign(payload, process.env.USER_VERIFICATION_TOKEN_SECRET);
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 7);
         console.log(token);
-        res.cookie("access-token", "bearer "+token, { sameSite: 'none', secure: true }).status(200).json(payload);
+        res.cookie("access-token", "bearer "+token, { expires:expirationDate.toUTCString() ,sameSite: 'none', secure: true }).status(200).json(payload);
       } else {
         res.status(400).json({ error: "password doesn't match" });
       }
