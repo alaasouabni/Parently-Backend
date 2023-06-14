@@ -111,7 +111,7 @@ router.post("/login", async (req, res) => {
         // const expirationDate = new Date();
         // expirationDate.setDate(expirationDate.getDate() + 7);
         console.log(token);
-        res.cookie("access-token", "bearer "+token, {sameSite: 'none', secure: true }).status(200).json(payload);
+        res.cookie("access-token", "bearer "+token, {domain: ".evenhub.online" ,sameSite: 'none', secure: true }).status(200).json(payload);
       } else {
         res.status(400).json({ error: "password doesn't match" });
       }
