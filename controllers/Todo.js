@@ -135,7 +135,7 @@ router.post('/checkin', isLoggedIn, async(req,res)=>{
     );
 
     const user = await User.findOne({ _id: participantId });
-    return res.status(200).json(user);
+    return res.status(200).json({user, message: "Check-in successfull" });
   } catch (e) {
     console.log(e);
     res.status(500).json({ error: "Check-in failed" + e });

@@ -10,7 +10,7 @@ const { isLoggedIn } = require("./middleware");
 router.get('/', async (req, res) => {
     try {
       const events = await Event.find();
-      res.json(events);
+      res.json({events, message:'Events retrieved successfully'});
     } catch (err) {
       console.error(err);
       res.status(500).send('Server Error');
@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
   
     const event = await Event.findById(req.params.eventId).populate("attendees").populate("checked_in_attendees");
     console.log(event);
-    res.status(200).send(event);
+    res.status(200).send({event, message:'Event retrieved successfully'});
   });
 
 
@@ -52,7 +52,7 @@ router.post('/:eventId/create-activity', isLoggedIn, async (req, res) => {
     // Save the updated event
     await event.save();
 
-    res.status(201).json({ activity, event });
+    res.status(201).json({ activity, event, message: 'Activity created successfully'});
   } catch (error) {
     res.status(500).json(error);
   }
