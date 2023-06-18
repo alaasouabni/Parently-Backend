@@ -57,7 +57,7 @@ router.post("/validate-email", async(req,res) => {
   const user = await User.findOne({ email: req.body.email });
   if(user){
     const verificationToken = user.generateVerificationToken();
-    const url = `https://www.evenhub.online/user/verify/${verificationToken}`;
+    const url = `https://app.evenhub.online/user/verify/${verificationToken}`;
 
     const msg = {
       to: email, // Change to your recipient
@@ -130,7 +130,7 @@ router.post("/login", async (req, res) => {
 //   // Do something with the cookie value...
 // });
 
-router.get("/verify/:id", async (req,res) => {
+router.post("/verify/:id", async (req,res) => {
   const token  = req.params.id;
     // Check we have an id
     if (!token) {
