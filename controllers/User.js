@@ -130,7 +130,7 @@ router.post("/login", async (req, res) => {
 //   // Do something with the cookie value...
 // });
 
-router.post("/verify/:id", async (req,res) => {
+router.get("/verify/:id", async (req,res) => {
   const token  = req.params.id;
     // Check we have an id
     if (!token) {
