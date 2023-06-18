@@ -52,3 +52,5 @@ app.use("/eventactivity", EventActivityRouter)
 app.listen(port, () => {
     console.log(`Server Started at ${port}`)
 })
+
+module.exports = app;

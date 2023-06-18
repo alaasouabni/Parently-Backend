@@ -10,7 +10,7 @@ describe('User Routes', () => {
   describe('POST /signup', () => {
     it('should create a new user', (done) => {
       chai.request(app)
-        .post('/signup')
+        .post('/user/signup')
         .send({
           email: 'test@example.com',
           password: 'password',
@@ -18,12 +18,13 @@ describe('User Routes', () => {
           surname: 'Test Surname',
         })
         .end((err, res) => {
+            console.log(res);
           expect(res).to.have.status(200);
           expect(res.body).to.be.an('object');
           expect(res.body).to.have.property('email', 'test@example.com');
           done();
         });
-    });
+    }).timeout(5000);
   });
 
   // Test the POST /validate-email route

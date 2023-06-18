@@ -33,8 +33,7 @@ const UserSchema = new mongoose.Schema({
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'EventActivity',
-          unique: true,
-        },
+        }
       ],
     created_at:{ type: Date, default: Date.now }
 });
