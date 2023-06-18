@@ -57,7 +57,7 @@ router.post("/validate-email", async(req,res) => {
   const user = await User.findOne({ email: req.body.email });
   if(user){
     const verificationToken = user.generateVerificationToken();
-    const url = `http://localhost:5000/user/verify/${verificationToken}`;
+    const url = `https://www.evenhub.online/user/verify/${verificationToken}`;
 
     const msg = {
       to: email, // Change to your recipient
