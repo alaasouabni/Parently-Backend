@@ -31,7 +31,7 @@ describe('User Routes', () => {
   describe('POST /validate-email', () => {
     it('should send a verification email', (done) => {
       chai.request(app)
-        .post('/validate-email')
+        .post('/user/validate-email')
         .send({
           email: 'test@example.com',
         })
@@ -48,7 +48,7 @@ describe('User Routes', () => {
   describe('POST /login', () => {
     it('should verify a user and get a token', (done) => {
       chai.request(app)
-        .post('/login')
+        .post('/user/login')
         .send({
           email: 'test@example.com',
           password: 'password',
@@ -67,7 +67,7 @@ describe('User Routes', () => {
   describe('GET /current-user', () => {
     it('should return the current user', (done) => {
       chai.request(app)
-        .get('/current-user')
+        .get('/user/current-user')
         .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -82,7 +82,7 @@ describe('User Routes', () => {
   describe('POST /reset-password', () => {
     it('should send a reset password email', (done) => {
       chai.request(app)
-        .post('/reset-password')
+        .post('/user/reset-password')
         .send({
           email: 'test@example.com',
         })
@@ -103,7 +103,7 @@ describe('User Routes', () => {
       const newPassword = 'new-password';
 
       chai.request(app)
-        .post('/new-password')
+        .post('/user/new-password')
         .send({
           id: resetToken,
           password: newPassword,
@@ -121,7 +121,7 @@ describe('User Routes', () => {
   describe('GET /logout', () => {
     it('should clear the access token cookie', (done) => {
       chai.request(app)
-        .get('/logout')
+        .get('/user/logout')
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.headers['set-cookie'][0]).to.include('access-token=; Path=/; Expires=');
@@ -138,7 +138,7 @@ describe('Todo Routes', () => {
     describe('POST /create-event', () => {
       it('should create a new event', (done) => {
         chai.request(app)
-          .post('/create-event')
+          .post('/todos/create-event')
           .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
           .send({
             name: 'Test Event',
@@ -165,7 +165,7 @@ describe('Todo Routes', () => {
     describe('POST /created-events', () => {
       it('should return the created events for a user', (done) => {
         chai.request(app)
-          .post('/created-events')
+          .post('/todos/created-events')
           .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
           .send({
             email: 'test@example.com',
@@ -182,7 +182,7 @@ describe('Todo Routes', () => {
     describe('POST /buy', () => {
       it('should buy a ticket for an event', (done) => {
         chai.request(app)
-          .post('/buy')
+          .post('/todos/buy')
           .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
           .send({
             eventId: 'event-id',
@@ -201,7 +201,7 @@ describe('Todo Routes', () => {
     describe('POST /mytickets', () => {
       it('should return the tickets for a user', (done) => {
         chai.request(app)
-          .post('/mytickets')
+          .post('/todos/mytickets')
           .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
           .send({
             email: 'test@example.com',
@@ -219,7 +219,7 @@ describe('Todo Routes', () => {
     describe('POST /checkin', () => {
       it('should check-in a participant for an event', (done) => {
         chai.request(app)
-          .post('/checkin')
+          .post('/todos/checkin')
           .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
           .send({
             eventId: 'event-id',
@@ -244,7 +244,7 @@ describe('Event Routes', () => {
   describe('GET /', () => {
     it('should return all events', (done) => {
       chai.request(app)
-        .get('/')
+        .get('/events/')
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.be.an('object');
@@ -260,7 +260,7 @@ describe('Event Routes', () => {
       const eventId = 'event-id'; // Replace with an actual event ID
 
       chai.request(app)
-        .get(`/${eventId}`)
+        .get(`/events/${eventId}`)
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body).to.be.an('object');
@@ -276,7 +276,7 @@ describe('Event Routes', () => {
       const eventId = 'event-id'; // Replace with an actual event ID
 
       chai.request(app)
-        .post(`/${eventId}/create-activity`)
+        .post(`/events/${eventId}/create-activity`)
         .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
         .send({
           name: 'Test Activity',
@@ -299,7 +299,7 @@ describe('Event Routes', () => {
       const eventId = 'event-id'; // Replace with an actual event ID
 
       chai.request(app)
-        .post(`/${eventId}/activities`)
+        .post(`/events/${eventId}/activities`)
         .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -322,7 +322,7 @@ describe('Event Activity Routes', () => {
       const activityId = 'activity-id'; // Replace with an actual activity ID
 
       chai.request(app)
-        .post(`/register/${eventId}/${activityId}`)
+        .post(`/eventactivity/register/${eventId}/${activityId}`)
         .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
         .send({ userId: 'user-id' }) // Replace with an actual user ID
         .end((err, res) => {
@@ -341,7 +341,7 @@ describe('Event Activity Routes', () => {
       const activityId = 'activity-id'; // Replace with an actual activity ID
 
       chai.request(app)
-        .post(`/unregister/${eventId}/${activityId}`)
+        .post(`/eventactivity/unregister/${eventId}/${activityId}`)
         .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -359,7 +359,7 @@ describe('Event Activity Routes', () => {
       const activityId = 'activity-id'; // Replace with an actual activity ID
 
       chai.request(app)
-        .post(`/checkin/${eventId}/${activityId}`)
+        .post(`/eventactivity/checkin/${eventId}/${activityId}`)
         .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
         .send({ participantId: 'participant-id' }) // Replace with an actual participant ID
         .end((err, res) => {
@@ -378,7 +378,7 @@ describe('Event Activity Routes', () => {
       const userId = 'user-id'; // Replace with an actual user ID
 
       chai.request(app)
-        .post(`/${eventId}/registered-activities?userId=${userId}`)
+        .post(`/eventactivity/${eventId}/registered-activities?userId=${userId}`)
         .set('Cookie', 'access-token=your-token') // Replace "your-token" with an actual token
         .end((err, res) => {
           expect(res).to.have.status(200);
